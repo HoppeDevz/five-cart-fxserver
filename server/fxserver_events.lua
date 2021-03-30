@@ -220,16 +220,11 @@ RegisterNetEvent("fxserver-events-addVehicle")
 AddEventHandler("fxserver-events-addVehicle", function(user_id, argument, amount)
     local user_id = tonumber(user_id)
     local source = vRP.getUserSource(user_id)
-
-    if source then
-        -- ?
-        
-    else
-        MySQL.Sync.fetchAll("INSERT INTO vrp_user_vehicles (user_id, model) VALUES(@user_id, @model)", {
-            ["@user_id"] = user_id,
-            ["@model"] = argument
-        })
-    end
+    
+    MySQL.Sync.fetchAll("INSERT INTO vrp_user_vehicles (user_id, vehicle) VALUES(@user_id, @vehicle)", {
+        ["@user_id"] = user_id,
+        ["@vehicle"] = argument
+    })
 end)
 
 RegisterNetEvent("fxserver-events-removeVehicle")
@@ -237,12 +232,8 @@ AddEventHandler("fxserver-events-removeVehicle", function(user_id, argument, amo
     local user_id = tonumber(user_id)
     local source = vRP.getUserSource(user_id)
 
-    if source then
-        -- ?
-    else
-        MySQL.Sync.fetchAll("DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND model = @model", {
-            ["@user_id"] = user_id,
-            ["@model"] = argument,
-        })
-    end
+    MySQL.Sync.fetchAll("DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle", {
+        ["@user_id"] = user_id,
+        ["@vehicle"] = argument
+    })
 end)
