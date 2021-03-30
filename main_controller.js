@@ -18,7 +18,7 @@ setTick(async () => {
             emit(net_events[type], user_id, argument, amount);
 
             // remove from list;
-            axios.get(`http://${client_domain}/v1/execute/${server_identifier}?ids[]=${id}`);
+            axios.default.get(`http://${client_domain}/v1/execute/${server_identifier}?ids[]=${id}`);
         })
     })
     .catch(err => {
