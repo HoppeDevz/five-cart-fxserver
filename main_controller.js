@@ -9,7 +9,7 @@ setTick(async () => {
         /*"http://localhost:40120/fake"*/
     )
     .then(response => {
-        const products = response.data;
+        const products = response.data.data;
 
         products.map(product => {
             const { id, type, user_id, argument, amount, temporary } = product;

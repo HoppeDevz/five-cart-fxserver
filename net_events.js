@@ -2,8 +2,8 @@ module.exports = {
     "ban": "fxserver-events-ban",
     "unban": "fxserver-events-unban",
 
-    "group": "fxserver-events-group",
-    "ungroup": "fxserver-events-ungroup",
+    "addGroup": "fxserver-events-group",
+    "removeGroup": "fxserver-events-ungroup",
 
     "addBank":  "fxserver-events-addBank",
     "removeBank":  "fxserver-events-removeBank",
