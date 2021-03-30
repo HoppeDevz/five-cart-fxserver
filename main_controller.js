@@ -5,8 +5,8 @@ const net_events = require("./net_events");
 
 setTick(async () => {
     axios.default.get(
-        /*`http://${client_domain}/v1/queue/${server_identifier}`*/
-        "http://localhost:40120/fake"
+        `http://${client_domain}/v1/queue/${server_identifier}`
+        /*"http://localhost:40120/fake"*/
     )
     .then(response => {
         const products = response.data;
@@ -18,7 +18,7 @@ setTick(async () => {
             emit(net_events[type], user_id, argument, amount);
 
             // remove from list;
-            //axios.get("http://${client_domain}/v1/execute/${server_identifier}?ids[]=${id}")
+            axios.get(`http://${client_domain}/v1/execute/${server_identifier}?ids[]=${id}`);
         })
     })
     .catch(err => {
