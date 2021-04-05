@@ -210,7 +210,7 @@ AddEventHandler("fxserver-events-removeHome", function(user_id, argument, amount
     else
         MySQL.Sync.fetchAll("DELETE FROM vrp_user_homes WHERE user_id = @user_id AND home = @home", {
             ["@user_id"] = user_id,
-            ["@home"] = argument,
+            ["@home"] = argument
         })
     end
 end)
@@ -235,5 +235,22 @@ AddEventHandler("fxserver-events-removeVehicle", function(user_id, argument, amo
     MySQL.Sync.fetchAll("DELETE FROM vrp_user_vehicles WHERE user_id = @user_id AND vehicle = @vehicle", {
         ["@user_id"] = user_id,
         ["@vehicle"] = argument
+    })
+end)
+
+
+RegisterNetEvent("fxserver_events:user-notify")
+AddEventHandler("fxserver_events:user-notify", function(user_id, argument, amount, temporary)
+    local nsource = vRP.getUserSource(tonumber(user_id))
+    TriggerClientEvent("fxserver_c_events:user-notify", nsource, user_id, argument, amount, temporary)
+end)
+
+RegisterNetEvent("fxserver_events:global_chat_message")
+AddEventHandler("fxserver_events:global_chat_message", function(user_id, argument, amount, temporary)
+    local identity = vRP.getUserIdentity(tonumber(user_id))
+    local message = "".. identity.name .." ".. identity.firstname .." COMPROU ".. argument .." "
+    TriggerClientEvent('chat:addMessage', -1, {
+        template = '<div style="padding: 0.5vw; margin: 0.5vw; background-image: linear-gradient(to right, rgba(255, 10, 10,0.7) 3%, rgba(0, 0, 0,0) 95%); border-radius: 15px 50px 30px 5px;"><img style="width: 17px" src="https://image.flaticon.com/icons/svg/138/138304.svg"> {1}</div>',
+        args = { fal, message }
     })
 end)

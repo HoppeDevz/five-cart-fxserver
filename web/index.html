@@ -1,0 +1,99 @@
+<html>
+
+<head>
+    <title>HoppeVehicleSafePlans</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Roboto:light,regular,medium,thin,italic,mediumitalic,bold"
+        title="roboto">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+        
+	<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="js/jquery.js" type="text/javascript"></script>
+    
+</head>
+
+<body id="body">
+    <div id="root">
+
+    </div>
+    <script src="./citizen.js"></script>
+</body>  
+
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src='https://unpkg.com/react-router-dom@5.0.0/umd/react-router-dom.min.js'></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+<script type="text/babel">
+
+    const { useState } = React;
+    const { useEffect } = React;
+
+    const { BrowserRouter, HashRouter, Switch, Route } = ReactRouterDOM;
+
+    let notify_id = 0;
+
+    const Home = () => {
+
+        useEffect(() => {
+            window.addEventListener("message", event => {
+               let data = event.data;
+               
+               if (data.action == "user-notify") {
+                   let doc_id = notify_id;
+                   notify_id = notify_id + 1;
+
+                   const notify_area = document.querySelector(".user-notify-area");
+                   notify_area.insertAdjacentHTML("beforeend", `
+                    <div id="not-${doc_id}" class="user-notify-container">
+                        <img src="./assets/cart-gif.gif" />
+                        <span>Você comprou <b>${data.product}</b></span>
+                    </div>
+                   `);
+
+                   setTimeout(() => {
+                        let element = document.querySelector(`#not-${doc_id}`);
+                        element.remove();
+                   }, 12 * 1000)
+               }
+            })
+        }, []);
+
+        return(
+            <div className="user-notify-area">
+                {/*<div className="user-notify-container">
+                    <img src="./assets/cart-gif.gif" />
+                    <span>Você comprou <b>VIP GOLD</b></span>
+                </div>
+
+                <div className="user-notify-container">
+                    <img src="./assets/cart-gif.gif" />
+                    <span>Você comprou <b>VIP GOLD</b></span>
+                </div>
+
+                <div className="user-notify-container">
+                    <img src="./assets/cart-gif.gif" />
+                    <span>Você comprou <b>VIP GOLD</b></span>
+                </div>*/}
+            </div>
+        )
+    }
+
+    const Router = () => {
+        return(
+            <HashRouter>
+                <Route path="/" exact component={Home} />
+            </HashRouter>
+        )
+    }
+
+    // react render dom
+    const AppComponent = () => <Router />
+    ReactDOM.render(<AppComponent />, document.getElementById('root'))
+
+</script>
+
+</html>  
